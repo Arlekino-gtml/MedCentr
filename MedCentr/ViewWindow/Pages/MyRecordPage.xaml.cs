@@ -72,7 +72,7 @@ namespace MedCentr.ViewWindow.Pages
             mpw.Owner = Window.GetWindow(this);
 
             mpw.ShowDialog();
-
+            //пример
             LoadAppointment();
 
 
