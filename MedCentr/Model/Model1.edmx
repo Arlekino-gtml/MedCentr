@@ -1,0 +1,635 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище MedicCentrModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="idAppointment" />
+          </Key>
+          <Property Name="idAppointment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AppointmentDate" Type="date" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="Status" Type="nvarchar" MaxLength="30" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="50" />
+          <Property Name="idDoctorUser" Type="int" />
+          <Property Name="idPacientUser" Type="int" />
+          <Property Name="idOffice" Type="int" />
+        </EntityType>
+        <EntityType Name="Branche">
+          <Key>
+            <PropertyRef Name="idBranche" />
+          </Key>
+          <Property Name="idBranche" Type="int" Nullable="false" />
+          <Property Name="BranchName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="255" />
+          <Property Name="Phone" Type="varchar" MaxLength="20" />
+          <Property Name="WorkingHours" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ConsultationResult">
+          <Key>
+            <PropertyRef Name="idConsultationResult" />
+          </Key>
+          <Property Name="idConsultationResult" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Diagnosis" Type="nvarchar" MaxLength="100" />
+          <Property Name="Recommendations" Type="nvarchar" MaxLength="500" />
+          <Property Name="Prescriptions" Type="nvarchar" MaxLength="300" />
+          <Property Name="FollowUpDate" Type="date" />
+          <Property Name="idAppointment" Type="int" />
+        </EntityType>
+        <EntityType Name="DayOfWeek">
+          <Key>
+            <PropertyRef Name="idDayOfWeek" />
+          </Key>
+          <Property Name="idDayOfWeek" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="DoctorSchedule">
+          <Key>
+            <PropertyRef Name="idDoctorSchedule" />
+          </Key>
+          <Property Name="idDoctorSchedule" Type="int" Nullable="false" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="idOffice" Type="int" />
+          <Property Name="idUser" Type="int" />
+          <Property Name="idDayOfWeek" Type="int" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="idOffice" />
+          </Key>
+          <Property Name="idOffice" Type="int" Nullable="false" />
+          <Property Name="OfficeNumber" Type="int" />
+          <Property Name="Floor" Type="int" />
+          <Property Name="idBranche" Type="int" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRole" />
+          </Key>
+          <Property Name="idRole" Type="int" Nullable="false" />
+          <Property Name="NameRole" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FIO" Type="nvarchar" MaxLength="200" />
+          <Property Name="Age" Type="int" />
+          <Property Name="Login" Type="nvarchar" MaxLength="255" />
+          <Property Name="Password" Type="nvarchar" MaxLength="255" />
+          <Property Name="Telephone" Type="varchar" MaxLength="20" />
+          <Property Name="Email" Type="nvarchar" MaxLength="255" />
+          <Property Name="Specialty" Type="nvarchar" MaxLength="100" />
+          <Property Name="Education" Type="nvarchar" MaxLength="100" />
+          <Property Name="Experience" Type="int" />
+          <Property Name="Position" Type="nvarchar" MaxLength="100" />
+          <Property Name="Image" Type="nvarchar(max)" />
+          <Property Name="idRole" Type="int" />
+        </EntityType>
+        <Association Name="FK_Appointment_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="idDoctorUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointment_User2">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="idPacientUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConsultationResult_Appointment">
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="0..1" />
+          <End Role="ConsultationResult" Type="Self.ConsultationResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointment">
+              <PropertyRef Name="idAppointment" />
+            </Principal>
+            <Dependent Role="ConsultationResult">
+              <PropertyRef Name="idAppointment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_DayOfWeek">
+          <End Role="DayOfWeek" Type="Self.DayOfWeek" Multiplicity="0..1" />
+          <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayOfWeek">
+              <PropertyRef Name="idDayOfWeek" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="idDayOfWeek" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_Office">
+          <End Role="Office" Type="Self.Office" Multiplicity="0..1" />
+          <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="idOffice" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="idOffice" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Office_Branche">
+          <End Role="Branche" Type="Self.Branche" Multiplicity="0..1" />
+          <End Role="Office" Type="Self.Office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branche">
+              <PropertyRef Name="idBranche" />
+            </Principal>
+            <Dependent Role="Office">
+              <PropertyRef Name="idBranche" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="idRole" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="idRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище MedicCentrModelContainer">
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Branche" EntityType="Self.Branche" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ConsultationResult" EntityType="Self.ConsultationResult" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DayOfWeek" EntityType="Self.DayOfWeek" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DoctorSchedule" EntityType="Self.DoctorSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Office" EntityType="Self.Office" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Appointment_User1" Association="Self.FK_Appointment_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointment_User2" Association="Self.FK_Appointment_User2">
+            <End Role="User" EntitySet="User" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConsultationResult_Appointment" Association="Self.FK_ConsultationResult_Appointment">
+            <End Role="Appointment" EntitySet="Appointment" />
+            <End Role="ConsultationResult" EntitySet="ConsultationResult" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorSchedule_DayOfWeek" Association="Self.FK_DoctorSchedule_DayOfWeek">
+            <End Role="DayOfWeek" EntitySet="DayOfWeek" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorSchedule_Office" Association="Self.FK_DoctorSchedule_Office">
+            <End Role="Office" EntitySet="Office" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorSchedule_User" Association="Self.FK_DoctorSchedule_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Office_Branche" Association="Self.FK_Office_Branche">
+            <End Role="Branche" EntitySet="Branche" />
+            <End Role="Office" EntitySet="Office" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MedicCentrModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="idAppointment" />
+          </Key>
+          <Property Name="idAppointment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppointmentDate" Type="DateTime" Precision="0" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="idDoctorUser" Type="Int32" />
+          <Property Name="idPacientUser" Type="Int32" />
+          <Property Name="idOffice" Type="Int32" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Appointment_User1" FromRole="Appointment" ToRole="User" />
+          <NavigationProperty Name="User1" Relationship="Self.FK_Appointment_User2" FromRole="Appointment" ToRole="User" />
+          <NavigationProperty Name="ConsultationResult" Relationship="Self.FK_ConsultationResult_Appointment" FromRole="Appointment" ToRole="ConsultationResult" />
+        </EntityType>
+        <EntityType Name="Branche">
+          <Key>
+            <PropertyRef Name="idBranche" />
+          </Key>
+          <Property Name="idBranche" Type="Int32" Nullable="false" />
+          <Property Name="BranchName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="WorkingHours" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Office" Relationship="Self.FK_Office_Branche" FromRole="Branche" ToRole="Office" />
+        </EntityType>
+        <EntityType Name="ConsultationResult">
+          <Key>
+            <PropertyRef Name="idConsultationResult" />
+          </Key>
+          <Property Name="idConsultationResult" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Diagnosis" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Recommendations" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Prescriptions" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="FollowUpDate" Type="DateTime" Precision="0" />
+          <Property Name="idAppointment" Type="Int32" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_ConsultationResult_Appointment" FromRole="ConsultationResult" ToRole="Appointment" />
+        </EntityType>
+        <EntityType Name="DayOfWeek">
+          <Key>
+            <PropertyRef Name="idDayOfWeek" />
+          </Key>
+          <Property Name="idDayOfWeek" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DoctorSchedule" Relationship="Self.FK_DoctorSchedule_DayOfWeek" FromRole="DayOfWeek" ToRole="DoctorSchedule" />
+        </EntityType>
+        <EntityType Name="DoctorSchedule">
+          <Key>
+            <PropertyRef Name="idDoctorSchedule" />
+          </Key>
+          <Property Name="idDoctorSchedule" Type="Int32" Nullable="false" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="idOffice" Type="Int32" />
+          <Property Name="idUser" Type="Int32" />
+          <Property Name="idDayOfWeek" Type="Int32" />
+          <NavigationProperty Name="DayOfWeek" Relationship="Self.FK_DoctorSchedule_DayOfWeek" FromRole="DoctorSchedule" ToRole="DayOfWeek" />
+          <NavigationProperty Name="Office" Relationship="Self.FK_DoctorSchedule_Office" FromRole="DoctorSchedule" ToRole="Office" />
+          <NavigationProperty Name="User" Relationship="Self.FK_DoctorSchedule_User" FromRole="DoctorSchedule" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="idOffice" />
+          </Key>
+          <Property Name="idOffice" Type="Int32" Nullable="false" />
+          <Property Name="OfficeNumber" Type="Int32" />
+          <Property Name="Floor" Type="Int32" />
+          <Property Name="idBranche" Type="Int32" />
+          <NavigationProperty Name="Branche" Relationship="Self.FK_Office_Branche" FromRole="Office" ToRole="Branche" />
+          <NavigationProperty Name="DoctorSchedule" Relationship="Self.FK_DoctorSchedule_Office" FromRole="Office" ToRole="DoctorSchedule" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="idRole" />
+          </Key>
+          <Property Name="idRole" Type="Int32" Nullable="false" />
+          <Property Name="NameRole" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="idUser" />
+          </Key>
+          <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FIO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Login" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Specialty" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Education" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Experience" Type="Int32" />
+          <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="idRole" Type="Int32" />
+          <NavigationProperty Name="Appointment" Relationship="Self.FK_Appointment_User1" FromRole="User" ToRole="Appointment" />
+          <NavigationProperty Name="Appointment1" Relationship="Self.FK_Appointment_User2" FromRole="User" ToRole="Appointment" />
+          <NavigationProperty Name="DoctorSchedule" Relationship="Self.FK_DoctorSchedule_User" FromRole="User" ToRole="DoctorSchedule" />
+          <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_Appointment_User1">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="idDoctorUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Appointment_User2">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="idPacientUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConsultationResult_Appointment">
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="0..1" />
+          <End Role="ConsultationResult" Type="Self.ConsultationResult" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Appointment">
+              <PropertyRef Name="idAppointment" />
+            </Principal>
+            <Dependent Role="ConsultationResult">
+              <PropertyRef Name="idAppointment" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Office_Branche">
+          <End Role="Branche" Type="Self.Branche" Multiplicity="0..1" />
+          <End Role="Office" Type="Self.Office" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branche">
+              <PropertyRef Name="idBranche" />
+            </Principal>
+            <Dependent Role="Office">
+              <PropertyRef Name="idBranche" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_DayOfWeek">
+          <End Role="DayOfWeek" Type="Self.DayOfWeek" Multiplicity="0..1" />
+          <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DayOfWeek">
+              <PropertyRef Name="idDayOfWeek" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="idDayOfWeek" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_Office">
+          <End Role="Office" Type="Self.Office" Multiplicity="0..1" />
+          <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="idOffice" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="idOffice" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DoctorSchedule_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="DoctorSchedule" Type="Self.DoctorSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="idUser" />
+            </Principal>
+            <Dependent Role="DoctorSchedule">
+              <PropertyRef Name="idUser" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="idRole" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="idRole" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MedicCentrEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" />
+          <EntitySet Name="Branche" EntityType="Self.Branche" />
+          <EntitySet Name="ConsultationResult" EntityType="Self.ConsultationResult" />
+          <EntitySet Name="DayOfWeek" EntityType="Self.DayOfWeek" />
+          <EntitySet Name="DoctorSchedule" EntityType="Self.DoctorSchedule" />
+          <EntitySet Name="Office" EntityType="Self.Office" />
+          <EntitySet Name="Role" EntityType="Self.Role" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="User" EntityType="Self.User" />
+          <AssociationSet Name="FK_Appointment_User1" Association="Self.FK_Appointment_User1">
+            <End Role="User" EntitySet="User" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Appointment_User2" Association="Self.FK_Appointment_User2">
+            <End Role="User" EntitySet="User" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConsultationResult_Appointment" Association="Self.FK_ConsultationResult_Appointment">
+            <End Role="Appointment" EntitySet="Appointment" />
+            <End Role="ConsultationResult" EntitySet="ConsultationResult" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Office_Branche" Association="Self.FK_Office_Branche">
+            <End Role="Branche" EntitySet="Branche" />
+            <End Role="Office" EntitySet="Office" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorSchedule_DayOfWeek" Association="Self.FK_DoctorSchedule_DayOfWeek">
+            <End Role="DayOfWeek" EntitySet="DayOfWeek" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorSchedule_Office" Association="Self.FK_DoctorSchedule_Office">
+            <End Role="Office" EntitySet="Office" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DoctorSchedule_User" Association="Self.FK_DoctorSchedule_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="DoctorSchedule" EntitySet="DoctorSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MedicCentrModelContainer" CdmEntityContainer="MedicCentrEntities1">
+          <EntitySetMapping Name="Appointment">
+            <EntityTypeMapping TypeName="MedicCentrModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="idAppointment" ColumnName="idAppointment" />
+                <ScalarProperty Name="AppointmentDate" ColumnName="AppointmentDate" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="idDoctorUser" ColumnName="idDoctorUser" />
+                <ScalarProperty Name="idPacientUser" ColumnName="idPacientUser" />
+                <ScalarProperty Name="idOffice" ColumnName="idOffice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Branche">
+            <EntityTypeMapping TypeName="MedicCentrModel.Branche">
+              <MappingFragment StoreEntitySet="Branche">
+                <ScalarProperty Name="idBranche" ColumnName="idBranche" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="WorkingHours" ColumnName="WorkingHours" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ConsultationResult">
+            <EntityTypeMapping TypeName="MedicCentrModel.ConsultationResult">
+              <MappingFragment StoreEntitySet="ConsultationResult">
+                <ScalarProperty Name="idConsultationResult" ColumnName="idConsultationResult" />
+                <ScalarProperty Name="Diagnosis" ColumnName="Diagnosis" />
+                <ScalarProperty Name="Recommendations" ColumnName="Recommendations" />
+                <ScalarProperty Name="Prescriptions" ColumnName="Prescriptions" />
+                <ScalarProperty Name="FollowUpDate" ColumnName="FollowUpDate" />
+                <ScalarProperty Name="idAppointment" ColumnName="idAppointment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DayOfWeek">
+            <EntityTypeMapping TypeName="MedicCentrModel.DayOfWeek">
+              <MappingFragment StoreEntitySet="DayOfWeek">
+                <ScalarProperty Name="idDayOfWeek" ColumnName="idDayOfWeek" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DoctorSchedule">
+            <EntityTypeMapping TypeName="MedicCentrModel.DoctorSchedule">
+              <MappingFragment StoreEntitySet="DoctorSchedule">
+                <ScalarProperty Name="idDoctorSchedule" ColumnName="idDoctorSchedule" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="idOffice" ColumnName="idOffice" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="idDayOfWeek" ColumnName="idDayOfWeek" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Office">
+            <EntityTypeMapping TypeName="MedicCentrModel.Office">
+              <MappingFragment StoreEntitySet="Office">
+                <ScalarProperty Name="idOffice" ColumnName="idOffice" />
+                <ScalarProperty Name="OfficeNumber" ColumnName="OfficeNumber" />
+                <ScalarProperty Name="Floor" ColumnName="Floor" />
+                <ScalarProperty Name="idBranche" ColumnName="idBranche" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Role">
+            <EntityTypeMapping TypeName="MedicCentrModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="idRole" ColumnName="idRole" />
+                <ScalarProperty Name="NameRole" ColumnName="NameRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="MedicCentrModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="MedicCentrModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="idUser" ColumnName="idUser" />
+                <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="Education" ColumnName="Education" />
+                <ScalarProperty Name="Experience" ColumnName="Experience" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="idRole" ColumnName="idRole" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

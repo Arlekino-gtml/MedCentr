@@ -1,0 +1,61 @@
+﻿<Window x:Class="MedCentr.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MedCentr"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="#B2B2F9">
+    <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--Левое окно-->
+            <TextBlock Text="Медицинский центр «Здоровье рядом»" Foreground="White"  FontWeight="Bold" FontSize="21" Margin="20" HorizontalAlignment="Center" VerticalAlignment="Center" TextDecorations="Underline"/>
+            <Image Source="/Images/DoctorCentr.jpg" Grid.RowSpan="4" Grid.Row="1"   />
+            <TextBlock Text="Ваше спокойствие — наша работа !" Grid.Row="5" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Stretch" FontSize="20" Margin="10" TextDecorations="OverLine"/>
+
+
+        </Grid>
+            <!--Правое окно-->
+        <Grid Grid.Column="1" Background="White" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="0.5"/>
+                <ColumnDefinition  Width="1*"/>
+                <ColumnDefinition  Width="6*"/>
+                <ColumnDefinition  Width="1*"/>
+                <ColumnDefinition  Width="0.5"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition  Height="5"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition  Height="auto"/>
+                <RowDefinition Height="5"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="1" Grid.Column="2" Text="Авторизация"   VerticalAlignment="Center" FontSize="17" FontWeight="Bold"/>
+            <TextBlock Grid.Row="3" Grid.Column="2" Text="Логин"   VerticalAlignment="Center" FontSize="16" Opacity="0.5" />
+            <TextBlock Grid.Row="6" Grid.Column="2" Text="Пароль"   VerticalAlignment="Center" FontSize="16" Opacity="0.5" />
+             
+            <TextBox Grid.Column="2" Grid.Row="4" Height="23" Width="195" HorizontalAlignment="Left" Name="Login" />
+            <PasswordBox Grid.Column="2" Grid.Row="7" Height="23" Width="195" HorizontalAlignment="Left" Name="Password"  />
+            <Button Content="Войти" Foreground="White" Background="#5E5ED8" Grid.Column="2" Grid.Row="8" Width="130" Height="25" Click="EnterButton_Click"   />
+        </Grid>
+    </Grid>
+</Window>

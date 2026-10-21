@@ -1,0 +1,42 @@
+﻿<Page x:Class="MedCentr.ViewWindow.Pages.PatientDiagnosisPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MedCentr.ViewWindow.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="PatientDiagnosisPage" Background="White">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.2*" />
+            <RowDefinition Height="6*"/>
+        </Grid.RowDefinitions>
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock Text="Результаты консульций"  Margin="20 20 10 0" FontSize="20" HorizontalAlignment="Center"  />
+            <Button Content="Изменить"  Width="120" Height="35" Margin="15 0 10 0" Background="Black" Foreground="White"  HorizontalAlignment="Center"  VerticalAlignment="Center" Click="EditButton_Click" />
+            <Button Content="+ Добавить"  Width="120" Height="35" Margin="15 0 10 0" Background="Black" Foreground="White"  HorizontalAlignment="Center"  VerticalAlignment="Center" />
+        </StackPanel>
+        <Border Grid.Row="1" Background="#F8FAFC" BorderBrush="#DDDDDD" BorderThickness="1" CornerRadius="8" Padding="12" Margin="0 0 0 10">
+        </Border>
+        <ListBox Grid.Row="1" Name="LstPatientDiagnosis">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="10"  Background="Aqua" BorderBrush="#DAD7F5" BorderThickness="1" Width="400" Height="Auto" CornerRadius="8" Margin="0 5 0 10" >
+                        <StackPanel>
+                            <TextBlock Text="{Binding Appointment.User1.FIO, StringFormat=Пациент: {0}}"/>
+                            <TextBlock Text="{Binding Appointment.User1.Age, StringFormat=Возраст: {0}}"/>
+                            <TextBlock Text="{Binding Diagnosis, StringFormat=Диагноз: {0}}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Recommendations,StringFormat=Рекомендации: {0}}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Prescriptions,StringFormat=Назначение: {0}}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding FollowUpDate,StringFormat=Дата обновления: {0:dd.MM.yyyy}}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+
+    </Grid>
+</Page>
