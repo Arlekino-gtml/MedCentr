@@ -14,7 +14,7 @@ namespace MedCentr
     /// </summary>
     public partial class App : Application
     {
-        public static MedicCentrEntities1 context = new MedicCentrEntities1();
+        public static MedicCentrEntities context = new MedicCentrEntities();
         
     }
 }

@@ -19,11 +19,18 @@ namespace MedCentr.ViewWindow.Pages
     /// Логика взаимодействия для MyDoctorRecordPage.xaml
     /// </summary>
     public partial class MyDoctorRecordPage : Page
+        //записи которые видит врач
     {
         public MyDoctorRecordPage()
         {
             InitializeComponent();
-            //LoadMyDoctorRecord();
+            LoadMyDoctorRecord();
+        }
+        private void LoadMyDoctorRecord() 
+        {
+            LstDoctorRecord.ItemsSource = App.context.Appointment.ToList();
+        
+        
         }
         //private void LoadMyDoctorRecord()
         //{
@@ -38,14 +45,14 @@ namespace MedCentr.ViewWindow.Pages
         //    //    .ToList();
 
 
-        private void LstDoctorRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var appointment = LstDoctorRecord.SelectedItem as MedCentr.Model.Appointment;
-            if (appointment == null)
-                return;
-            NavigationService.Navigate(new PatientDiagnosisPage(appointment));
-            LstDoctorRecord.SelectedItem = null;
-        }
+        //private void LstDoctorRecord_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+        //    var appointment = LstDoctorRecord.SelectedItem as MedCentr.Model.Appointment;
+        //    if (appointment == null)
+        //        return;
+        //    NavigationService.Navigate(new PatientDiagnosisPage(appointment));
+        //    LstDoctorRecord.SelectedItem = null;
+        //}
         
     }
 }

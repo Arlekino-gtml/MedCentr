@@ -13,10 +13,10 @@ namespace MedCentr.Model
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class MedicCentrEntities1 : DbContext
+    public partial class MedicCentrEntities : DbContext
     {
-        public MedicCentrEntities1()
-            : base("name=MedicCentrEntities1")
+        public MedicCentrEntities()
+            : base("name=MedicCentrEntities")
         {
         }
     

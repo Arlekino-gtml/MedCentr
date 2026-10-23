@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="Хранилище MedicCentrModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище MedicCentrModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Appointment">
           <Key>
             <PropertyRef Name="idAppointment" />
@@ -241,7 +241,8 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="MedicCentrModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -342,6 +343,7 @@
           </Key>
           <Property Name="idUser" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FIO" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Age" Type="Int32" />
           <Property Name="Login" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Password" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="Telephone" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
@@ -350,13 +352,12 @@
           <Property Name="Education" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Experience" Type="Int32" />
           <Property Name="Position" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="idRole" Type="Int32" />
           <NavigationProperty Name="Appointment" Relationship="Self.FK_Appointment_User1" FromRole="User" ToRole="Appointment" />
           <NavigationProperty Name="Appointment1" Relationship="Self.FK_Appointment_User2" FromRole="User" ToRole="Appointment" />
           <NavigationProperty Name="DoctorSchedule" Relationship="Self.FK_DoctorSchedule_User" FromRole="User" ToRole="DoctorSchedule" />
           <NavigationProperty Name="Role" Relationship="Self.FK_User_Role" FromRole="User" ToRole="Role" />
-          <Property Name="Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Age" Type="Int32" />
         </EntityType>
         <Association Name="FK_Appointment_User1">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
@@ -454,7 +455,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="MedicCentrEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="MedicCentrEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Appointment" EntityType="Self.Appointment" />
           <EntitySet Name="Branche" EntityType="Self.Branche" />
           <EntitySet Name="ConsultationResult" EntityType="Self.ConsultationResult" />
@@ -502,7 +503,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище MedicCentrModelContainer" CdmEntityContainer="MedicCentrEntities1">
+        <EntityContainerMapping StorageEntityContainer="Хранилище MedicCentrModelContainer" CdmEntityContainer="MedicCentrEntities">
           <EntitySetMapping Name="Appointment">
             <EntityTypeMapping TypeName="MedicCentrModel.Appointment">
               <MappingFragment StoreEntitySet="Appointment">
@@ -593,10 +594,9 @@
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="MedicCentrModel.User">
               <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Age" ColumnName="Age" />
-                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="idUser" ColumnName="idUser" />
                 <ScalarProperty Name="FIO" ColumnName="FIO" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
                 <ScalarProperty Name="Login" ColumnName="Login" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="Telephone" ColumnName="Telephone" />
@@ -605,6 +605,7 @@
                 <ScalarProperty Name="Education" ColumnName="Education" />
                 <ScalarProperty Name="Experience" ColumnName="Experience" />
                 <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
                 <ScalarProperty Name="idRole" ColumnName="idRole" />
               </MappingFragment>
             </EntityTypeMapping>

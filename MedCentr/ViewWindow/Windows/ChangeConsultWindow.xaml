@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:MedCentr.ViewWindow.Windows"
         mc:Ignorable="d"
         Title="ChangeConsultWindow" Height="450" Width="800">
-    <Grid>
-        
+    <Grid Background="Red">
+        <Grid>
+            
+        </Grid>
     </Grid>
 </Window>

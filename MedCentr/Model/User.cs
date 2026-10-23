@@ -23,6 +23,7 @@ namespace MedCentr.Model
     
         public int idUser { get; set; }
         public string FIO { get; set; }
+        public Nullable<int> Age { get; set; }
         public string Login { get; set; }
         public string Password { get; set; }
         public string Telephone { get; set; }
@@ -31,9 +32,8 @@ namespace MedCentr.Model
         public string Education { get; set; }
         public Nullable<int> Experience { get; set; }
         public string Position { get; set; }
-        public Nullable<int> idRole { get; set; }
         public string Image { get; set; }
-        public Nullable<int> Age { get; set; }
+        public Nullable<int> idRole { get; set; }
     
         public virtual ICollection<Appointment> Appointment { get; set; }
         public virtual ICollection<Appointment> Appointment1 { get; set; }
